@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ongi_front/core/app_colors.dart';
 import 'package:ongi_front/core/app_spacing.dart';
 import 'package:ongi_front/viewmodels/personality_test_viewmodel.dart';
+import 'package:ongi_front/views/pages/onboarding/test_result_page.dart';
 import 'package:ongi_front/views/widgets/question/question_option_button.dart';
 
 /// 성격 테스트 질문 화면
@@ -278,18 +279,11 @@ class _PersonalityTestPageState extends State<PersonalityTestPage> {
       // 로딩 다이얼로그 닫기
       Navigator.of(context).pop();
 
-      // TODO: 결과 화면으로 이동
-      // Navigator.of(context).pushReplacement(
-      //   MaterialPageRoute(
-      //     builder: (_) => const TestResultPage(),
-      //   ),
-      // );
-
-      // 임시: 성공 메시지
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('결과: ${viewModel.result?.profileType ?? "분석 중"}'),
-          backgroundColor: AppColors.success,
+      // 결과 페이지로 이동
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const TestResultPage(),
         ),
       );
     } catch (e) {
