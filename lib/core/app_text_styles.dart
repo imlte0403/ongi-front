@@ -113,4 +113,22 @@ class AppTextStyles {
     height: 1.2,
     color: AppColors.textPrimary,
   );
+
+  // 12. 본문 강조 (Body Bold) - 16pt Bold
+  static const TextStyle bodyBold = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    height: 1.5,
+    color: AppColors.textPrimary,
+  );
+
+  // 13. 중간 타이틀 (Title Medium) - 18pt Bold
+  static const TextStyle titleMedium = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    height: 1.4,
+    color: AppColors.textPrimary,
+  );
 }

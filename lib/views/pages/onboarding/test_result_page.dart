@@ -3,6 +3,8 @@ import 'package:ongi_front/core/app_colors.dart';
 import 'package:ongi_front/views/widgets/result/result_club_card.dart';
 import 'package:ongi_front/views/widgets/result/result_description_card.dart';
 import 'package:ongi_front/views/widgets/result/result_similar_club_card.dart';
+import 'package:ongi_front/views/widgets/common/custom_button.dart';
+import 'package:ongi_front/views/pages/onboarding/matching_result_page.dart';
 import 'package:ongi_front/views/widgets/result/result_stat_row.dart';
 import 'package:ongi_front/views/widgets/result/result_tag_chip.dart';
 
@@ -42,16 +44,8 @@ class TestResultPage extends StatelessWidget {
         'title': '런닝',
         'description': '런닝 후 찾아오는 상쾌함'
       },
-      {
-        'icon': Icons.extension,
-        'title': '보드게임',
-        'description': '마음맞는 사람들과 게임'
-      },
-      {
-        'icon': Icons.menu_book,
-        'title': '북토크',
-        'description': '차분한 분위기에 빠져보기'
-      },
+      {'icon': Icons.extension, 'title': '보드게임', 'description': '마음맞는 사람들과 게임'},
+      {'icon': Icons.menu_book, 'title': '북토크', 'description': '차분한 분위기에 빠져보기'},
     ];
 
     // 5. 비슷한 클럽 데이터
@@ -229,31 +223,16 @@ class TestResultPage extends StatelessWidget {
               const SizedBox(height: 16),
               SizedBox(
                 width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
+                child: CustomButton(
+                  text: '모임 찾아보기',
                   onPressed: () {
-                    // TODO: 모임 찾기 페이지로 이동
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.search, color: Colors.white),
-                      const SizedBox(width: 8),
-                      Text(
-                        '모임 찾아보기',
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MatchingResultPage(),
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 40),
