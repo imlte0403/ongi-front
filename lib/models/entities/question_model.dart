@@ -4,23 +4,23 @@ class Question {
   final int id;
   final String text;
   final List<QuestionOption> options;
-  
+
   Question({
     required this.id,
     required this.text,
     required this.options,
   });
-  
+
   factory Question.fromJson(Map<String, dynamic> json) {
     return Question(
       id: json['id'] as int,
-      text: json['text'] as String,
+      text: json['question_text'] as String? ?? json['text'] as String? ?? '',
       options: (json['options'] as List<dynamic>)
           .map((o) => QuestionOption.fromJson(o as Map<String, dynamic>))
           .toList(),
     );
   }
-  
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -34,12 +34,12 @@ class Question {
 class QuestionOption {
   final int id;
   final String text;
-  final double socialityScore;    // 사교성
-  final double activityScore;     // 활동성
-  final double intimacyScore;     // 친밀도
-  final double immersionScore;    // 몰입도
-  final double flexibilityScore;  // 유연성
-  
+  final double socialityScore; // 사교성
+  final double activityScore; // 활동성
+  final double intimacyScore; // 친밀도
+  final double immersionScore; // 몰입도
+  final double flexibilityScore; // 유연성
+
   QuestionOption({
     required this.id,
     required this.text,
@@ -49,19 +49,26 @@ class QuestionOption {
     required this.immersionScore,
     required this.flexibilityScore,
   });
-  
+
   factory QuestionOption.fromJson(Map<String, dynamic> json) {
+    // 백엔드는 option_text 필드 사용
+    final text =
+        json['option_text'] as String? ?? json['text'] as String? ?? '';
+    // 백엔드는 score와 weight 필드 사용 (개별 점수 없음)
+    final score = (json['score'] ?? 0).toDouble();
+
     return QuestionOption(
       id: json['id'] as int,
-      text: json['text'] as String,
-      socialityScore: (json['sociality_score'] ?? 0).toDouble(),
-      activityScore: (json['activity_score'] ?? 0).toDouble(),
-      intimacyScore: (json['intimacy_score'] ?? 0).toDouble(),
-      immersionScore: (json['immersion_score'] ?? 0).toDouble(),
-      flexibilityScore: (json['flexibility_score'] ?? 0).toDouble(),
+      text: text,
+      // weight에 따라 해당 점수만 설정
+      socialityScore: json['weight'] == 'sociality' ? score : 0,
+      activityScore: json['weight'] == 'activity' ? score : 0,
+      intimacyScore: json['weight'] == 'intimacy' ? score : 0,
+      immersionScore: json['weight'] == 'immersion' ? score : 0,
+      flexibilityScore: json['weight'] == 'flexibility' ? score : 0,
     );
   }
-  
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
