@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>소셜링 프로젝트 문서</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            --color-primary: #10B981;
+            --color-primary-light: #ECFDF5;
+            --color-gray-50: #F9FAFB;
+            --color-gray-100: #F3F4F6;
+            --color-gray-200: #E5E7EB;
+            --color-gray-700: #374151;
+            --color-gray-900: #111827;
+            --color-white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--color-gray-50);
+            color: var(--color-gray-900);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #059669 100%);
+            color: white;
+            padding: 48px;
+            border-radius: 16px;
+            margin-bottom: 48px;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.2);
+        }
+
+        .header-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .header-subtitle {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+            border-bottom: 2px solid var(--color-gray-200);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-gray-700);
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: var(--color-primary);
+        }
+
+        .tab.active {
+            color: var(--color-primary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--color-primary);
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .doc-section {
+            background: var(--color-white);
+            padding: 48px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--color-gray-900);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            font-size: 32px;
+        }
+
+        .subsection {
+            margin-bottom: 32px;
+        }
+
+        .subsection:last-child {
+            margin-bottom: 0;
+        }
+
+        .subsection-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-gray-900);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--color-gray-200);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+
+        th {
+            background: var(--color-gray-100);
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-gray-700);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 1px solid var(--color-gray-200);
+        }
+
+        td {
+            padding: 12px 16px;
+            border: 1px solid var(--color-gray-200);
+            font-size: 14px;
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background: var(--color-gray-50);
+        }
+
+        .screen-id {
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 16px 0;
+        }
+
+        .code-block .keyword {
+            color: #c678dd;
+        }
+
+        .code-block .string {
+            color: #98c379;
+        }
+
+        .code-block .number {
+            color: #d19a66;
+        }
+
+        .code-block .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .info-box {
+            background: var(--color-primary-light);
+            border-left: 4px solid var(--color-primary);
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .info-box-title {
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 8px;
+        }
+
+        .flow-diagram {
+            background: var(--color-gray-50);
+            padding: 32px;
+            border-radius: 12px;
+            margin: 24px 0;
+            overflow-x: auto;
+        }
+
+        .flow-box {
+            background: var(--color-white);
+            border: 2px solid var(--color-gray-300);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 8px;
+            display: inline-block;
+            min-width: 150px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .flow-box.start {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #059669 100%);
+            color: white;
+            border: none;
+        }
+
+        .flow-box.decision {
+            background: var(--color-primary-light);
+            border-color: var(--color-primary);
+        }
+
+        .flow-arrow {
+            display: inline-block;
+            margin: 0 8px;
+            font-size: 20px;
+            color: var(--color-primary);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .badge.get {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        .badge.post {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .badge.put {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .badge.delete {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        @media print {
+            .tabs {
+                display: none;
+            }
+            .content-section {
+                display: block !important;
+                page-break-before: always;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px 16px;
+            }
+            .header {
+                padding: 32px 24px;
+            }
+            .doc-section {
+                padding: 24px 16px;
+            }
+            table {
+                font-size: 12px;
+            }
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="header-title">소셜링 프로젝트 문서</h1>
+            <p class="header-subtitle">성격 테스트 기반 모임 매칭 서비스 - 전체 명세서</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('screen-def')">화면정의서</button>
+            <button class="tab" onclick="switchTab('screen-flow')">화면플로우</button>
+            <button class="tab" onclick="switchTab('api-spec')">API 명세서</button>
+            <button class="tab" onclick="switchTab('func-spec')">기능명세서</button>
+        </div>
+
+        <!-- 화면정의서 -->
+        <div id="screen-def" class="content-section active">
+            <div class="doc-section">
+                <h2 class="section-title">
+                    <span class="section-icon">📱</span>
+                    화면정의서
+                </h2>
+
+                <!-- 온보딩 플로우 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">1. 온보딩 플로우</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">화면 ID</th>
+                                <th style="width: 150px;">화면명</th>
+                                <th>주요 UI 요소</th>
+                                <th style="width: 150px;">액션</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="screen-id">#0</td>
+                                <td>앱 시작</td>
+                                <td>
+                                    • 앱 로고<br>
+                                    • 앱 이름 "소셜링"<br>
+                                    • 서비스 설명<br>
+                                    • 일러스트레이션<br>
+                                    • CTA: "테스트 시작하기" 버튼
+                                </td>
+                                <td>→ #1</td>
+                            </tr>
+                            <tr>
+                                <td class="screen-id">#1</td>
+                                <td>성격 테스트 Q1</td>
+                                <td>
+                                    • 헤더: 뒤로가기 버튼<br>
+                                    • 질문 라벨 (녹색 뱃지)<br>
+                                    • 질문 텍스트<br>
+                                    • 4개 선택지 버튼<br>
+                                    • 진행 표시 (1/10)<br>
+                                    • 하단: 이전/다음 버튼
+                                </td>
+                                <td>→ #2</td>
+                            </tr>
+                            <tr>
+                                <td class="screen-id">#2</td>
+                                <td>성격 테스트 Q2-Q9</td>
+                                <td>
+                                    • #1과 동일한 구조<br>
+                                    • 진행 표시 업데이트 (2/10 ~ 9/10)
+                                </td>
+                                <td>→ #3</td>
+                            </tr>
+                            <tr>
+                                <td class="screen-id">#3</td>
+                                <td>성격 테스트 Q10</td>
+                                <td>
+                                    • #1과 동일한 구조<br>
+                                    • 진행 표시 (10/10)<br>
+                                    • 하단: "결과보기" 버튼
+                                </td>
+                                <td>→ #4</td>
+                            </tr>
+                            <tr>
+                                <td class="screen-id">#4</td>
+                                <td>테스트 결과</td>
+                                <td>
+                                    • 헤더: "결과"<br>
+                                    • 성격 유형명 (예: 군형형 조화자)<br>
+                                    • 캐릭터 일러스트<br>
+                                    • 유형 특성 3가지<br>
+                                    • 결과 요약 (4개 지표 + 진행바)<br>
+                                    • 추천 활동 4개 (아이콘 + 설명)<br>
+                                    • 비슷한 사람들의 인기 모임 TOP 3<br>
+                                    • CTA: "모임 찾아보기" 버튼
+                                </td>
+                                <td>→ 매칭 결과</td>
+                            </tr>
+                            <tr>
+                                <td class="screen-id">-</td>
+                                <td>매칭 결과</td>
+                                <td>
+                                    • 헤더: 뒤로가기, "당신과 비슷한 사람들"<br>
+                                    • 비슷한 성격 유형 카드 (스크롤)<br>
+                                    • 모임 카테고리 통계 (2x2 그리드)<br>
+                                    • 일러스트<br>
+                                    • CTA: "나에게 맞는 모임 찾기"<br>
+                                    • 네비게이션 인디케이터 (1/2)
+                                </td>
+                                <td>→ #5</td>
+                            </tr>
+                            <tr>
+                                <td class="screen-id">#5</td>
+                                <td>모임 추천 TOP 3</td>
+                                <td>
+                                    • 헤더: 뒤로가기, "당신을 위한 모임 TOP 3"<br>
+                                    • 모임 카드 3개:<br>
+                                    &nbsp;&nbsp;- 모임 이모지 + 이름<br>
+                                    &nbsp;&nbsp;- 매칭률 뱃지 (92%, 88%, 81%)<br>
+                                    &nbsp;&nbsp;- 참여인원, 평점<br>
+                                    &nbsp;&nbsp;- 설명<br>
+                                    &nbsp;&nbsp;- 위치/빈도/규모 태그<br>
+                                    • CTA: "프로필 만들고 모임 참여하기"<br>
+                                    • 네비게이션 인디케이터 (2/2)
+                                </td>
+                                <td>→ #6</td>
+                            </tr>
+                            <tr>
+                                <td class="screen-id">#6</td>
+                                <td>프로필 생성</td>
+                                <td>
+                                    • 헤더: 뒤로가기, "프로필 생성"<br>
+                                    • 프로필 사진 업로드 (원형, 편집 버튼)<br>
+                                    • 닉네임 입력 (필수, 20자)<br>
+                                    • 자기소개 입력 (선택, 200자)<br>
+                                    • 글자수 카운터<br>
+                                    • 안내 카드<br>
+                                    • CTA: "프로필 완성하고 모임 참여하기" (닉네임 입력 시 활성화)
+                                </td>
+                                <td>→ 프로필 완성</td>
+                            </tr>
+                            <tr>
+                                <td class="screen-id">-</td>
+                                <td>프로필 완성</td>
+                                <td>
+                                    • 축하 아이콘 (🎉)<br>
+                                    • "프로필이 완성되었어요!"<br>
+                                    • 프로필 요약 카드:<br>
+                                    &nbsp;&nbsp;- 프로필 사진<br>
+                                    &nbsp;&nbsp;- 닉네임<br>
+                                    &nbsp;&nbsp;- 자기소개<br>
+                                    • CTA: "채팅방 입장하기"
+                                </td>
+                                <td>→ 모임 확인</td>
+                            </tr>
+                            <tr>
+                                <td class="screen-id">-</td>
+                                <td>모임 확인</td>
+                                <td>
+                                    • 헤더: 뒤로가기<br>
+                                    • 모임 히어로 섹션 (이모지, 이름, 메타)<br>
+                                    • 모임 소개<br>
+                                    • 멤버 그리드 (최대 8명 표시)<br>
+                                    • 다음 예정 모임 일정<br>
+                                    • 모임 규칙<br>
+                                    • CTA: "채팅 시작하기"
+                                </td>
+                                <td>→ 채팅</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 메인 화면 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">2. 메인 화면 (네비게이션)</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">화면 ID</th>
+                                <th style="width: 150px;">화면명</th>
+                                <th>주요 UI 요소</th>
+                                <th style="width: 100px;">네비게이션</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="screen-id">M-1</td>
+                                <td>홈</td>
+                                <td>
+                                    • 앱바: 로고, 앱이름, 알림 버튼<br>
+                                    • 개인화 추천 섹션 (성격 기반, 카드 3개)<br>
+                                    • 배너 캐러셀 (2-3개)<br>
+                                    • 카테고리 그리드 (8개 아이콘)<br>
+                                    • 에디터 큐레이션 카드<br>
+                                    • 인기 모임 섹션 (카드 스크롤)<br>
+                                    • 리뷰 좋은 모임 섹션 (카드 스크롤)<br>
+                                    • 하단 네비게이션 (5개 탭)
+                                </td>
+                                <td>Tab 1</td>
+                            </tr>
+                            <tr>
+                                <td class="screen-id">M-2</td>
+                                <td>둘러보기</td>
+                                <td>
+                                    • 앱바: 로고, 앱이름, 알림 버튼<br>
+                                    • 검색바 (아이콘 + 입력창)<br>
+                                    • 카테고리 필터 칩 (스크롤)<br>
+                                    • 모임 리스트:<br>
+                                    &nbsp;&nbsp;- 썸네일<br>
+                                    &nbsp;&nbsp;- 모임명<br>
+                                    &nbsp;&nbsp;- 참여자/평점<br>
+                                    &nbsp;&nbsp;- 위치/빈도 태그<br>
+                                    • 하단 네비게이션
+                                </td>
+                                <td>Tab 2</td>
+                            </tr>
+                            <tr>
+                                <td class="screen-id">M-3</td>
+                                <td>내모임</td>
+                                <td>
+                                    • 앱바: 로고, 앱이름, 알림 버튼<br>
+                                    • 섹션 헤더: "참여 중인 모임 (N)"<br>
+                                    • 모임 아이템 리스트:<br>
+                                    &nbsp;&nbsp;- 썸네일<br>
+                                    &nbsp;&nbsp;- 모임명<br>
+                                    &nbsp;&nbsp;- 다음 모임 일정<br>
+                                    &nbsp;&nbsp;- 액션 버튼: 채팅, 일정<br>
+                                    • 하단 네비게이션
+                                </td>
+                                <td>Tab 3</td>
+                            </tr>
+                            <tr>
+                                <td class="screen-id">M-4</td>
+                                <td>채팅</td>
+                                <td>
+                                    • 앱바: 로고, 앱이름, 알림 버튼<br>
+                                    • 섹션 헤더: "채팅"<br>
+                                    • 채팅방 리스트:<br>
+                                    &nbsp;&nbsp;- 모임 아바타<br>
+                                    &nbsp;&nbsp;- 모임명<br>
+                                    &nbsp;&nbsp;- 마지막 메시지 미리보기<br>
+                                    &nbsp;&nbsp;- 시간<br>
+                                    &nbsp;&nbsp;- 읽지 않은 메시지 뱃지<br>
+                                    • 하단 네비게이션 (뱃지 표시)
+                                </td>
+                                <td>Tab 4</td>
+                            </tr>
+                            <tr>
+                                <td class="screen-id">M-5</td>
+                                <td>마이페이지</td>
+                                <td>
+                                    • 앱바: 로고, 앱이름, 알림 버튼<br>
+                                    • 프로필 섹션:<br>
+                                    &nbsp;&nbsp;- 프로필 사진<br>
+                                    &nbsp;&nbsp;- 닉네임<br>
+                                    &nbsp;&nbsp;- 성격 유형<br>
+                                    &nbsp;&nbsp;- "프로필 수정" 버튼<br>
+                                    • 메뉴 리스트:<br>
+                                    &nbsp;&nbsp;- 내 활동<br>
+                                    &nbsp;&nbsp;- 성격 테스트 다시하기<br>
+                                    &nbsp;&nbsp;- 설정<br>
+                                    &nbsp;&nbsp;- 고객센터<br>
+                                    • 하단 네비게이션
+                                </td>
+                                <td>Tab 5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 채팅 화면 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">3. 채팅 화면</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">화면 ID</th>
+                                <th style="width: 150px;">화면명</th>
+                                <th>주요 UI 요소</th>
+                                <th style="width: 100px;">이전 화면</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="screen-id">C-1</td>
+                                <td>채팅방</td>
+                                <td>
+                                    • 헤더:<br>
+                                    &nbsp;&nbsp;- 뒤로가기 버튼<br>
+                                    &nbsp;&nbsp;- 모임명<br>
+                                    &nbsp;&nbsp;- 멤버 수<br>
+                                    &nbsp;&nbsp;- 액션: 멤버 목록(👥), 더보기(⋮)<br>
+                                    • 채팅 메시지 영역 (스크롤):<br>
+                                    &nbsp;&nbsp;- 시스템 메시지<br>
+                                    &nbsp;&nbsp;- 환영 카드 (첫 입장 시)<br>
+                                    &nbsp;&nbsp;- 일반 메시지<br>
+                                    &nbsp;&nbsp;- 일정 제안 카드<br>
+                                    &nbsp;&nbsp;- 이벤트 카드<br>
+                                    &nbsp;&nbsp;- 위치 공유 카드<br>
+                                    • 입력창:<br>
+                                    &nbsp;&nbsp;- [+] 버튼 (사진/일정/위치/이벤트)<br>
+                                    &nbsp;&nbsp;- 텍스트 입력창<br>
+                                    &nbsp;&nbsp;- 전송 버튼
+                                </td>
+                                <td>M-4 또는 M-3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="info-box">
+                        <div class="info-box-title">채팅 메시지 타입</div>
+                        <strong>1. 일반 텍스트:</strong> 프로필 사진, 닉네임, 시간, 메시지 버블<br>
+                        <strong>2. 일정 제안 카드:</strong> 날짜, 시간, 장소, 메모, 참석/불참 버튼, 실시간 카운트<br>
+                        <strong>3. 이벤트 카드 (모임장만):</strong> 이벤트명, 날짜, 시간, 장소, 설명, 참석/불참/미정 버튼<br>
+                        <strong>4. 위치 공유:</strong> 지도 미리보기, 장소명, 길찾기 버튼<br>
+                        <strong>5. 시스템 메시지:</strong> 입장/퇴장 알림
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 화면플로우 -->
+        <div id="screen-flow" class="content-section">
+            <div class="doc-section">
+                <h2 class="section-title">
+                    <span class="section-icon">🔄</span>
+                    화면플로우
+                </h2>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">1. 온보딩 플로우</h3>
+                    <div class="flow-diagram">
+                        <div class="flow-box start">앱 시작 (#0)</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box decision">성격 테스트 Q1 (#1)</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box decision">Q2-Q9 (#2)</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box decision">Q10 (#3)</div>
+                        <br><br>
+                        <span class="flow-arrow">↓</span>
+                        <br><br>
+                        <div class="flow-box">테스트 결과 (#4)</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">매칭 결과</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">모임 추천 (#5)</div>
+                        <br><br>
+                        <span class="flow-arrow">↓</span>
+                        <br><br>
+                        <div class="flow-box">프로필 생성 (#6)</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">프로필 완성</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">모임 확인</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">채팅방 (C-1)</div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">2. 메인 화면 네비게이션</h3>
+                    <div class="flow-diagram">
+                        <div class="flow-box">홈 (M-1)</div>
+                        <span class="flow-arrow">⟷</span>
+                        <div class="flow-box">둘러보기 (M-2)</div>
+                        <span class="flow-arrow">⟷</span>
+                        <div class="flow-box">내모임 (M-3)</div>
+                        <span class="flow-arrow">⟷</span>
+                        <div class="flow-box">채팅 (M-4)</div>
+                        <span class="flow-arrow">⟷</span>
+                        <div class="flow-box">마이 (M-5)</div>
+                    </div>
+                    <p style="margin-top: 16px; color: var(--color-gray-700);">
+                        하단 네비게이션을 통해 5개 탭 간 자유로운 이동 가능
+                    </p>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">3. 모임 탐색 → 참여 플로우</h3>
+                    <div class="flow-diagram">
+                        <div class="flow-box">홈/둘러보기</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">모임 카드 클릭</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">모임 상세</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">"참여하기" 버튼</div>
+                        <br><br>
+                        <span class="flow-arrow">↓</span>
+                        <br><br>
+                        <div class="flow-box decision">프로필 있음?</div>
+                        <br><br>
+                        <div style="display: inline-block; text-align: center;">
+                            <span class="flow-arrow">↓ YES</span><br>
+                            <div class="flow-box">모임 확인</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box">채팅 시작</div>
+                        </div>
+                        <span style="margin: 0 40px;">|</span>
+                        <div style="display: inline-block; text-align: center;">
+                            <span class="flow-arrow">↓ NO</span><br>
+                            <div class="flow-box">프로필 생성 (#6)</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box">모임 확인</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">4. 채팅 내 기능 플로우</h3>
+                    <div class="flow-diagram">
+                        <div class="flow-box">채팅방 (C-1)</div>
+                        <br><br>
+                        <span class="flow-arrow">↓</span>
+                        <br><br>
+                        <div class="flow-box">[+] 버튼 클릭</div>
+                        <br><br>
+                        <span class="flow-arrow">↓</span>
+                        <br><br>
+                        <div style="display: inline-flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
+                            <div style="text-align: center;">
+                                <div class="flow-box decision">📷 사진</div>
+                                <span class="flow-arrow">↓</span><br>
+                                <div class="flow-box">갤러리 선택</div>
+                                <span class="flow-arrow">↓</span><br>
+                                <div class="flow-box">채팅에 전송</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div class="flow-box decision">📅 일정 제안</div>
+                                <span class="flow-arrow">↓</span><br>
+                                <div class="flow-box">일정 입력 폼</div>
+                                <span class="flow-arrow">↓</span><br>
+                                <div class="flow-box">제안 카드 생성</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div class="flow-box decision">📍 위치</div>
+                                <span class="flow-arrow">↓</span><br>
+                                <div class="flow-box">지도 선택</div>
+                                <span class="flow-arrow">↓</span><br>
+                                <div class="flow-box">위치 공유</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div class="flow-box decision">🎉 이벤트</div>
+                                <span class="flow-arrow">↓</span><br>
+                                <div class="flow-box">이벤트 생성 폼</div>
+                                <span class="flow-arrow">↓</span><br>
+                                <div class="flow-box">이벤트 카드</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API 명세서 -->
+        <div id="api-spec" class="content-section">
+            <div class="doc-section">
+                <h2 class="section-title">
+                    <span class="section-icon">🔌</span>
+                    API 명세서
+                </h2>
+
+                <div class="info-box">
+                    <div class="info-box-title">Base URL</div>
+                    <code>https://api.socialring.com/v1</code>
+                </div>
+
+                <!-- 인증 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">1. 인증 (Authentication)</h3>
+                    
+                    <h4 style="margin: 16px 0 8px 0; font-weight: 600;">1.1 회원가입</h4>
+                    <div class="code-block">
+<span class="keyword">POST</span> <span class="string">/auth/signup</span>
+
+<span class="comment">// Request Body</span>
+{
+  <span class="string">"email"</span>: <span class="string">"user@example.com"</span>,
+  <span class="string">"password"</span>: <span class="string">"securepassword123"</span>,
+  <span class="string">"nickname"</span>: <span class="string">"달리기왕"</span>
+}
+
+<span class="comment">// Response (201 Created)</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"userId"</span>: <span class="string">"usr_abc123"</span>,
+    <span class="string">"accessToken"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIs..."</span>,
+    <span class="string">"refreshToken"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIs..."</span>
+  }
+}
+                    </div>
+
+                    <h4 style="margin: 16px 0 8px 0; font-weight: 600;">1.2 로그인</h4>
+                    <div class="code-block">
+<span class="keyword">POST</span> <span class="string">/auth/login</span>
+
+<span class="comment">// Request Body</span>
+{
+  <span class="string">"email"</span>: <span class="string">"user@example.com"</span>,
+  <span class="string">"password"</span>: <span class="string">"securepassword123"</span>
+}
+
+<span class="comment">// Response (200 OK)</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"userId"</span>: <span class="string">"usr_abc123"</span>,
+    <span class="string">"accessToken"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIs..."</span>,
+    <span class="string">"refreshToken"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIs..."</span>
+  }
+}
+                    </div>
+                </div>
+
+                <!-- 성격 테스트 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">2. 성격 테스트 (Personality Test)</h3>
+                    
+                    <h4 style="margin: 16px 0 8px 0; font-weight: 600;">2.1 테스트 질문 가져오기</h4>
+                    <div class="code-block">
+<span class="keyword">GET</span> <span class="string">/personality-test/questions</span>
+
+<span class="comment">// Response (200 OK)</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"questions"</span>: [
+      {
+        <span class="string">"id"</span>: <span class="number">1</span>,
+        <span class="string">"text"</span>: <span class="string">"금요일 저녁, 친구가 갑자기 밖으로 불러냈다. 이때 당신의 반응은?"</span>,
+        <span class="string">"options"</span>: [
+          { <span class="string">"id"</span>: <span class="string">"a"</span>, <span class="string">"text"</span>: <span class="string">"귀찮은데... 가지 않는다"</span> },
+          { <span class="string">"id"</span>: <span class="string">"b"</span>, <span class="string">"text"</span>: <span class="string">"내가 해줄 수 있지, 당연히 나간다!"</span> },
+          { <span class="string">"id"</span>: <span class="string">"c"</span>: <span class="string">"내가 해줄게 수 있지, 생각하더니 나간다"</span> },
+          { <span class="string">"id"</span>: <span class="string">"d"</span>, <span class="string">"text"</span>: <span class="string">"내가 해줄 수 있지, 생각하더니 나간다"</span> }
+        ]
+      }
+      <span class="comment">// ... 총 10개 질문</span>
+    ]
+  }
+}
+                    </div>
+
+                    <h4 style="margin: 16px 0 8px 0; font-weight: 600;">2.2 테스트 결과 제출 및 분석</h4>
+                    <div class="code-block">
+<span class="keyword">POST</span> <span class="string">/personality-test/submit</span>
+
+<span class="comment">// Request Body</span>
+{
+  <span class="string">"userId"</span>: <span class="string">"usr_abc123"</span>,
+  <span class="string">"answers"</span>: [
+    { <span class="string">"questionId"</span>: <span class="number">1</span>, <span class="string">"optionId"</span>: <span class="string">"b"</span> },
+    { <span class="string">"questionId"</span>: <span class="number">2</span>, <span class="string">"optionId"</span>: <span class="string">"a"</span> }
+    <span class="comment">// ... 총 10개</span>
+  ]
+}
+
+<span class="comment">// Response (200 OK)</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"personalityType"</span>: <span class="string">"균형형 조화자"</span>,
+    <span class="string">"description"</span>: <span class="string">"당신은 상황에 따라 유연하게 대처하며..."</span>,
+    <span class="string">"traits"</span>: [
+      <span class="string">"당신은 상황에 따라 유연하게 대처하며, 내향과 외향의 균형을 잘 맞춥니다."</span>,
+      <span class="string">"다양한 활동을 즐기고, 사람들과의 조화를 중요시합니다."</span>,
+      <span class="string">"그룹의 분위기를 파악하는 데 어려움이 없고, 사람들과 원활하게 지냅니다."</span>
+    ],
+    <span class="string">"scores"</span>: {
+      <span class="string">"사교성"</span>: <span class="number">85</span>,
+      <span class="string">"활동성"</span>: <span class="number">45</span>,
+      <span class="string">"친밀도"</span>: <span class="number">58</span>,
+      <span class="string">"몰입도"</span>: <span class="number">80</span>
+    },
+    <span class="string">"recommendedActivities"</span>: [
+      { <span class="string">"icon"</span>: <span class="string">"🧘‍♀️"</span>, <span class="string">"name"</span>: <span class="string">"요가/명상"</span>, <span class="string">"description"</span>: <span class="string">"몸과 마음의 균형 찾기"</span> },
+      { <span class="string">"icon"</span>: <span class="string">"🏃‍♂️"</span>, <span class="string">"name"</span>: <span class="string">"러닝"</span>, <span class="string">"description"</span>: <span class="string">"건강 후 찾아오는 상쾌함"</span> }
+    ]
+  }
+}
+                    </div>
+                </div>
+
+                <!-- 모임 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">3. 모임 (Groups)</h3>
+                    
+                    <h4 style="margin: 16px 0 8px 0; font-weight: 600;">3.1 추천 모임 가져오기</h4>
+                    <div class="code-block">
+<span class="keyword">GET</span> <span class="string">/groups/recommendations?userId=usr_abc123</span>
+
+<span class="comment">// Response (200 OK)</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"groups"</span>: [
+      {
+        <span class="string">"groupId"</span>: <span class="string">"grp_123"</span>,
+        <span class="string">"name"</span>: <span class="string">"주말 러닝 크루"</span>,
+        <span class="string">"emoji"</span>: <span class="string">"🏃‍♂️"</span>,
+        <span class="string">"thumbnail"</span>: <span class="string">"https://cdn.socialring.com/groups/grp_123.jpg"</span>,
+        <span class="string">"memberCount"</span>: <span class="number">32</span>,
+        <span class="string">"rating"</span>: <span class="number">4.8</span>,
+        <span class="string">"location"</span>: <span class="string">"한강 뚝섬"</span>,
+        <span class="string">"frequency"</span>: <span class="string">"주 1회"</span>,
+        <span class="string">"size"</span>: <span class="string">"8-12명"</span>,
+        <span class="string">"matchRate"</span>: <span class="number">92</span>,
+        <span class="string">"description"</span>: <span class="string">"매주 토요일 아침, 한강에서 가볍게 러닝하며..."</span>
+      }
+    ]
+  }
+}
+                    </div>
+
+                    <h4 style="margin: 16px 0 8px 0; font-weight: 600;">3.2 모임 상세 정보</h4>
+                    <div class="code-block">
+<span class="keyword">GET</span> <span class="string">/groups/:groupId</span>
+
+<span class="comment">// Response (200 OK)</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"groupId"</span>: <span class="string">"grp_123"</span>,
+    <span class="string">"name"</span>: <span class="string">"주말 러닝 크루"</span>,
+    <span class="string">"emoji"</span>: <span class="string">"🏃‍♂️"</span>,
+    <span class="string">"description"</span>: <span class="string">"매주 토요일 아침, 한강에서..."</span>,
+    <span class="string">"members"</span>: [
+      { <span class="string">"userId"</span>: <span class="string">"usr_001"</span>, <span class="string">"nickname"</span>: <span class="string">"김러닝"</span>, <span class="string">"avatar"</span>: <span class="string">"..."</span> }
+    ],
+    <span class="string">"nextEvent"</span>: {
+      <span class="string">"date"</span>: <span class="string">"2024-12-21"</span>,
+      <span class="string">"time"</span>: <span class="string">"08:00"</span>,
+      <span class="string">"location"</span>: <span class="string">"한강공원 뚝섬유원지"</span>
+    },
+    <span class="string">"rules"</span>: [
+      <span class="string">"시간 약속은 꼭 지켜주세요"</span>,
+      <span class="string">"불참 시 최소 1일 전 공지해주세요"</span>
+    ]
+  }
+}
+                    </div>
+
+                    <h4 style="margin: 16px 0 8px 0; font-weight: 600;">3.3 모임 참여</h4>
+                    <div class="code-block">
+<span class="keyword">POST</span> <span class="string">/groups/:groupId/join</span>
+
+<span class="comment">// Request Body</span>
+{
+  <span class="string">"userId"</span>: <span class="string">"usr_abc123"</span>
+}
+
+<span class="comment">// Response (200 OK)</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"message"</span>: <span class="string">"모임에 참여했습니다"</span>,
+    <span class="string">"groupId"</span>: <span class="string">"grp_123"</span>
+  }
+}
+                    </div>
+
+                    <h4 style="margin: 16px 0 8px 0; font-weight: 600;">3.4 내 모임 목록</h4>
+                    <div class="code-block">
+<span class="keyword">GET</span> <span class="string">/users/:userId/groups</span>
+
+<span class="comment">// Response (200 OK)</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"groups"</span>: [
+      {
+        <span class="string">"groupId"</span>: <span class="string">"grp_123"</span>,
+        <span class="string">"name"</span>: <span class="string">"주말 러닝 크루"</span>,
+        <span class="string">"emoji"</span>: <span class="string">"🏃‍♂️"</span>,
+        <span class="string">"nextEvent"</span>: {
+          <span class="string">"date"</span>: <span class="string">"2024-12-21"</span>,
+          <span class="string">"time"</span>: <span class="string">"08:00"</span>
+        },
+        <span class="string">"unreadCount"</span>: <span class="number">2</span>
+      }
+    ]
+  }
+}
+                    </div>
+                </div>
+
+                <!-- 채팅 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">4. 채팅 (Chat)</h3>
+                    
+                    <h4 style="margin: 16px 0 8px 0; font-weight: 600;">4.1 채팅 메시지 가져오기</h4>
+                    <div class="code-block">
+<span class="keyword">GET</span> <span class="string">/groups/:groupId/messages?limit=50&before=msgId</span>
+
+<span class="comment">// Response (200 OK)</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"messages"</span>: [
+      {
+        <span class="string">"messageId"</span>: <span class="string">"msg_001"</span>,
+        <span class="string">"type"</span>: <span class="string">"text"</span>,
+        <span class="string">"userId"</span>: <span class="string">"usr_001"</span>,
+        <span class="string">"nickname"</span>: <span class="string">"김러닝"</span>,
+        <span class="string">"avatar"</span>: <span class="string">"https://..."</span>,
+        <span class="string">"content"</span>: <span class="string">"안녕하세요!"</span>,
+        <span class="string">"timestamp"</span>: <span class="string">"2024-12-18T14:15:00Z"</span>
+      },
+      {
+        <span class="string">"messageId"</span>: <span class="string">"msg_002"</span>,
+        <span class="string">"type"</span>: <span class="string">"schedule_proposal"</span>,
+        <span class="string">"userId"</span>: <span class="string">"usr_002"</span>,
+        <span class="string">"content"</span>: {
+          <span class="string">"date"</span>: <span class="string">"2024-12-21"</span>,
+          <span class="string">"time"</span>: <span class="string">"08:00"</span>,
+          <span class="string">"location"</span>: <span class="string">"한강공원 뚝섬유원지"</span>,
+          <span class="string">"memo"</span>: <span class="string">"5km 가볍게 달리고 브런치"</span>,
+          <span class="string">"responses"</span>: {
+            <span class="string">"attending"</span>: [<span class="string">"usr_001"</span>, <span class="string">"usr_003"</span>],
+            <span class="string">"notAttending"</span>: [<span class="string">"usr_004"</span>]
+          }
+        },
+        <span class="string">"timestamp"</span>: <span class="string">"2024-12-18T14:16:00Z"</span>
+      }
+    ]
+  }
+}
+                    </div>
+
+                    <h4 style="margin: 16px 0 8px 0; font-weight: 600;">4.2 메시지 전송</h4>
+                    <div class="code-block">
+<span class="keyword">POST</span> <span class="string">/groups/:groupId/messages</span>
+
+<span class="comment">// Request Body (텍스트)</span>
+{
+  <span class="string">"userId"</span>: <span class="string">"usr_abc123"</span>,
+  <span class="string">"type"</span>: <span class="string">"text"</span>,
+  <span class="string">"content"</span>: <span class="string">"안녕하세요!"</span>
+}
+
+<span class="comment">// Request Body (일정 제안)</span>
+{
+  <span class="string">"userId"</span>: <span class="string">"usr_abc123"</span>,
+  <span class="string">"type"</span>: <span class="string">"schedule_proposal"</span>,
+  <span class="string">"content"</span>: {
+    <span class="string">"date"</span>: <span class="string">"2024-12-21"</span>,
+    <span class="string">"time"</span>: <span class="string">"08:00"</span>,
+    <span class="string">"location"</span>: <span class="string">"한강공원 뚝섬유원지"</span>,
+    <span class="string">"memo"</span>: <span class="string">"5km 가볍게"</span>
+  }
+}
+
+<span class="comment">// Response (201 Created)</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"messageId"</span>: <span class="string">"msg_new123"</span>,
+    <span class="string">"timestamp"</span>: <span class="string">"2024-12-18T14:20:00Z"</span>
+  }
+}
+                    </div>
+
+                    <h4 style="margin: 16px 0 8px 0; font-weight: 600;">4.3 일정 제안 응답</h4>
+                    <div class="code-block">
+<span class="keyword">POST</span> <span class="string">/messages/:messageId/respond</span>
+
+<span class="comment">// Request Body</span>
+{
+  <span class="string">"userId"</span>: <span class="string">"usr_abc123"</span>,
+  <span class="string">"response"</span>: <span class="string">"attending"</span> <span class="comment">// or "notAttending"</span>
+}
+
+<span class="comment">// Response (200 OK)</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"message"</span>: <span class="string">"응답이 기록되었습니다"</span>
+  }
+}
+                    </div>
+                </div>
+
+                <!-- 프로필 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">5. 프로필 (Profile)</h3>
+                    
+                    <h4 style="margin: 16px 0 8px 0; font-weight: 600;">5.1 프로필 생성</h4>
+                    <div class="code-block">
+<span class="keyword">POST</span> <span class="string">/users/:userId/profile</span>
+
+<span class="comment">// Request Body (multipart/form-data)</span>
+{
+  <span class="string">"nickname"</span>: <span class="string">"달리기왕"</span>,
+  <span class="string">"bio"</span>: <span class="string">"주말마다 한강에서 러닝하는 것을 좋아해요"</span>,
+  <span class="string">"avatar"</span>: <span class="comment">File</span>
+}
+
+<span class="comment">// Response (201 Created)</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"userId"</span>: <span class="string">"usr_abc123"</span>,
+    <span class="string">"nickname"</span>: <span class="string">"달리기왕"</span>,
+    <span class="string">"avatarUrl"</span>: <span class="string">"https://cdn.socialring.com/avatars/usr_abc123.jpg"</span>
+  }
+}
+                    </div>
+
+                    <h4 style="margin: 16px 0 8px 0; font-weight: 600;">5.2 프로필 조회</h4>
+                    <div class="code-block">
+<span class="keyword">GET</span> <span class="string">/users/:userId/profile</span>
+
+<span class="comment">// Response (200 OK)</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"userId"</span>: <span class="string">"usr_abc123"</span>,
+    <span class="string">"nickname"</span>: <span class="string">"달리기왕"</span>,
+    <span class="string">"bio"</span>: <span class="string">"주말마다 한강에서..."</span>,
+    <span class="string">"avatarUrl"</span>: <span class="string">"https://..."</span>,
+    <span class="string">"personalityType"</span>: <span class="string">"균형형 조화자"</span>,
+    <span class="string">"joinedGroups"</span>: <span class="number">3</span>
+  }
+}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 기능명세서 -->
+        <div id="func-spec" class="content-section">
+            <div class="doc-section">
+                <h2 class="section-title">
+                    <span class="section-icon">⚙️</span>
+                    기능명세서
+                </h2>
+
+                <!-- 사용자 관리 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">1. 사용자 관리</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">ID</th>
+                                <th style="width: 150px;">기능명</th>
+                                <th>상세 설명</th>
+                                <th style="width: 100px;">우선순위</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>F-1.1</td>
+                                <td>회원가입</td>
+                                <td>
+                                    • 이메일/비밀번호 기반 회원가입<br>
+                                    • 이메일 중복 검증<br>
+                                    • 비밀번호 암호화 저장<br>
+                                    • 가입 완료 시 JWT 토큰 발급
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-1.2</td>
+                                <td>로그인</td>
+                                <td>
+                                    • 이메일/비밀번호 인증<br>
+                                    • Access Token + Refresh Token 발급<br>
+                                    • 자동 로그인 (토큰 기반)
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-1.3</td>
+                                <td>프로필 생성</td>
+                                <td>
+                                    • 닉네임 입력 (필수, 2-20자)<br>
+                                    • 자기소개 입력 (선택, 최대 200자)<br>
+                                    • 프로필 사진 업로드 (선택)<br>
+                                    • 닉네임 중복 검증
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-1.4</td>
+                                <td>프로필 수정</td>
+                                <td>
+                                    • 닉네임, 자기소개, 사진 수정<br>
+                                    • 변경 사항 즉시 반영<br>
+                                    • 수정 이력 기록
+                                </td>
+                                <td>Medium</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 성격 테스트 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">2. 성격 테스트</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">ID</th>
+                                <th style="width: 150px;">기능명</th>
+                                <th>상세 설명</th>
+                                <th style="width: 100px;">우선순위</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>F-2.1</td>
+                                <td>테스트 진행</td>
+                                <td>
+                                    • 총 10개 질문 제공<br>
+                                    • 각 질문당 4개 선택지<br>
+                                    • 진행 상황 표시 (N/10)<br>
+                                    • 이전/다음 질문 이동<br>
+                                    • 진행 상황 자동 저장 (중도 이탈 대비)
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-2.2</td>
+                                <td>결과 분석</td>
+                                <td>
+                                    • 답변 기반 성격 유형 분석<br>
+                                    • 4개 지표 점수 계산 (사교성, 활동성, 친밀도, 몰입도)<br>
+                                    • 성격 유형별 설명 제공<br>
+                                    • 추천 활동 4가지 제시
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-2.3</td>
+                                <td>결과 저장</td>
+                                <td>
+                                    • 사용자별 테스트 결과 DB 저장<br>
+                                    • 재테스트 기능 제공<br>
+                                    • 이전 결과와 비교 (선택 기능)
+                                </td>
+                                <td>Medium</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 모임 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">3. 모임 관리</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">ID</th>
+                                <th style="width: 150px;">기능명</th>
+                                <th>상세 설명</th>
+                                <th style="width: 100px;">우선순위</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>F-3.1</td>
+                                <td>개인화 추천</td>
+                                <td>
+                                    • 성격 테스트 결과 기반 추천<br>
+                                    • 매칭률 계산 및 표시<br>
+                                    • TOP 3 모임 우선 노출<br>
+                                    • 추천 이유 명시
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-3.2</td>
+                                <td>모임 탐색</td>
+                                <td>
+                                    • 키워드 검색<br>
+                                    • 카테고리 필터 (8개 카테고리)<br>
+                                    • 위치 필터<br>
+                                    • 정렬: 인기순/최신순/매칭률순
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-3.3</td>
+                                <td>모임 상세</td>
+                                <td>
+                                    • 모임 기본 정보 (이름, 설명, 위치, 빈도)<br>
+                                    • 멤버 목록<br>
+                                    • 다음 예정 일정<br>
+                                    • 모임 규칙<br>
+                                    • 참여 버튼
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-3.4</td>
+                                <td>모임 참여</td>
+                                <td>
+                                    • 모임 참여 신청<br>
+                                    • 프로필 확인 (없으면 생성 유도)<br>
+                                    • 참여 완료 시 채팅방 자동 입장<br>
+                                    • 참여 알림 (모임장 + 멤버)
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-3.5</td>
+                                <td>내 모임 관리</td>
+                                <td>
+                                    • 참여 중인 모임 리스트<br>
+                                    • 다음 일정 표시<br>
+                                    • 빠른 채팅 진입<br>
+                                    • 모임 나가기
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-3.6</td>
+                                <td>모임 생성</td>
+                                <td>
+                                    • 모임 기본 정보 입력<br>
+                                    • 카테고리 선택<br>
+                                    • 모임 규칙 작성<br>
+                                    • 썸네일 이미지 업로드<br>
+                                    • 최대 인원 설정
+                                </td>
+                                <td>Medium</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 채팅 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">4. 채팅</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">ID</th>
+                                <th style="width: 150px;">기능명</th>
+                                <th>상세 설명</th>
+                                <th style="width: 100px;">우선순위</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>F-4.1</td>
+                                <td>실시간 채팅</td>
+                                <td>
+                                    • WebSocket 기반 실시간 메시징<br>
+                                    • 텍스트 메시지 전송<br>
+                                    • 이미지 전송 (최대 5MB)<br>
+                                    • 메시지 타임스탬프<br>
+                                    • 메시지 삭제 (작성자만, 5분 이내)
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-4.2</td>
+                                <td>일정 제안</td>
+                                <td>
+                                    • 날짜/시간 선택<br>
+                                    • 장소 입력<br>
+                                    • 메모 작성<br>
+                                    • 카드 형태로 채팅에 표시<br>
+                                    • 참석/불참 버튼<br>
+                                    • 실시간 응답 카운트
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-4.3</td>
+                                <td>이벤트 생성</td>
+                                <td>
+                                    • 모임장만 생성 가능<br>
+                                    • 이벤트명, 날짜, 시간, 장소, 설명 입력<br>
+                                    • 참석/불참/미정 응답<br>
+                                    • 참석자 목록 표시<br>
+                                    • 푸시 알림 자동 발송
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-4.4</td>
+                                <td>위치 공유</td>
+                                <td>
+                                    • 지도에서 위치 선택<br>
+                                    • 장소명 자동 입력<br>
+                                    • 지도 미리보기 (채팅 내 표시)<br>
+                                    • 길찾기 버튼 (외부 지도 앱 연동)
+                                </td>
+                                <td>Medium</td>
+                            </tr>
+                            <tr>
+                                <td>F-4.5</td>
+                                <td>채팅방 관리</td>
+                                <td>
+                                    • 멤버 목록 보기<br>
+                                    • 모임 정보 보기<br>
+                                    • 알림 설정 (ON/OFF, 사용자별)<br>
+                                    • 채팅방 나가기
+                                </td>
+                                <td>Medium</td>
+                            </tr>
+                            <tr>
+                                <td>F-4.6</td>
+                                <td>읽지 않은 메시지</td>
+                                <td>
+                                    • 읽지 않은 메시지 카운트<br>
+                                    • 뱃지 표시 (채팅 탭, 채팅방 리스트)<br>
+                                    • 스크롤 시 자동 읽음 처리<br>
+                                    • 마지막 읽은 위치 저장
+                                </td>
+                                <td>Medium</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 알림 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">5. 알림</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">ID</th>
+                                <th style="width: 150px;">기능명</th>
+                                <th>상세 설명</th>
+                                <th style="width: 100px;">우선순위</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>F-5.1</td>
+                                <td>푸시 알림</td>
+                                <td>
+                                    • 새 메시지 알림<br>
+                                    • 일정/이벤트 생성 알림<br>
+                                    • 일정 리마인더 (D-1, 1시간 전)<br>
+                                    • 새 멤버 입장 알림<br>
+                                    • 사용자별 ON/OFF 설정
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-5.2</td>
+                                <td>인앱 알림</td>
+                                <td>
+                                    • 알림 센터 (앱바 알림 아이콘)<br>
+                                    • 알림 목록 (읽음/안읽음 구분)<br>
+                                    • 알림 클릭 시 해당 화면 이동<br>
+                                    • 읽지 않은 알림 뱃지
+                                </td>
+                                <td>Medium</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 검색 & 필터 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">6. 검색 & 필터</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">ID</th>
+                                <th style="width: 150px;">기능명</th>
+                                <th>상세 설명</th>
+                                <th style="width: 100px;">우선순위</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>F-6.1</td>
+                                <td>키워드 검색</td>
+                                <td>
+                                    • 모임명, 설명 내 키워드 검색<br>
+                                    • 자동완성 제안<br>
+                                    • 최근 검색어 저장 (최대 10개)<br>
+                                    • 검색 결과 하이라이트
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-6.2</td>
+                                <td>카테고리 필터</td>
+                                <td>
+                                    • 8개 카테고리 선택<br>
+                                    • 다중 선택 가능<br>
+                                    • 필터 칩으로 표시<br>
+                                    • 선택 상태 저장
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-6.3</td>
+                                <td>고급 필터</td>
+                                <td>
+                                    • 위치 필터 (시/구 단위)<br>
+                                    • 활동 빈도 (주N회, 월N회)<br>
+                                    • 그룹 규모 (소/중/대)<br>
+                                    • 평점 (4.0 이상, 4.5 이상 등)
+                                </td>
+                                <td>Medium</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 큐레이션 -->
+                <div class="subsection">
+                    <h3 class="subsection-title">7. 큐레이션 & 추천</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">ID</th>
+                                <th style="width: 150px;">기능명</th>
+                                <th>상세 설명</th>
+                                <th style="width: 100px;">우선순위</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>F-7.1</td>
+                                <td>에디터 큐레이션</td>
+                                <td>
+                                    • 주간/월간 테마별 모임 큐레이션<br>
+                                    • 큐레이션 제목, 설명, 모임 리스트<br>
+                                    • 홈 화면 노출<br>
+                                    • 관리자 페이지에서 생성
+                                </td>
+                                <td>Medium</td>
+                            </tr>
+                            <tr>
+                                <td>F-7.2</td>
+                                <td>인기 모임</td>
+                                <td>
+                                    • 참여자 수 기준 상위 모임<br>
+                                    • 최근 1주일 기준 활성도 측정<br>
+                                    • 실시간 업데이트<br>
+                                    • 홈/둘러보기 화면 노출
+                                </td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>F-7.3</td>
+                                <td>리뷰 좋은 모임</td>
+                                <td>
+                                    • 평점 4.5 이상 모임<br>
+                                    • 리뷰 5개 이상인 모임만<br>
+                                    • 평점 + 리뷰 수 복합 정렬<br>
+                                    • 홈 화면 노출
+                                </td>
+                                <td>Medium</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab
+            event.currentTarget.classList.add('active');
+            
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+        }
+    </script>
+</body>
+</html>

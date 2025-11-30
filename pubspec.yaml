@@ -1,0 +1,37 @@
+name: ongi_front
+description: 온기 - 성향 기반 취미 매칭 플랫폼 (Flutter Web)
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # 상태 관리
+  provider: ^6.1.1
+  
+  # HTTP & API
+  dio: ^5.4.0
+  
+  # WebSocket (Sprint 5-6에서 사용)
+  socket_io_client: ^2.0.3
+  
+  # 로컬 저장소 (Web)
+  shared_preferences: ^2.2.2
+  
+  # JavaScript Interop (카카오맵용)
+  js: ^0.6.7
+  
+  # 유틸리티
+  intl: ^0.19.0
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
