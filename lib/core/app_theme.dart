@@ -48,7 +48,7 @@ class AppTheme {
           backgroundColor: AppColors.primary,
           foregroundColor: AppColors.background,
           disabledBackgroundColor: AppColors.textDisabled,
-          disabledForegroundColor: AppColors.background,
+          disabledForegroundColor: AppColors.textDisabled,
           elevation: 0,
           textStyle: AppTextStyles.buttonPrimary,
           shape: RoundedRectangleBorder(

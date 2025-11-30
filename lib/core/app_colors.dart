@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 /// 온기 앱의 색상 시스템
-/// 피그마 디자인 가이드를 기반으로 구성
 class AppColors {
   // Primary Colors
   static const Color primary = Color(0xFF28B16E);

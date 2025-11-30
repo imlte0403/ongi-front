@@ -3,11 +3,13 @@
 class Question {
   final int id;
   final String text;
+  final String? category;
   final List<QuestionOption> options;
 
   Question({
     required this.id,
     required this.text,
+    this.category,
     required this.options,
   });
 
@@ -15,6 +17,7 @@ class Question {
     return Question(
       id: json['id'] as int,
       text: json['question_text'] as String? ?? json['text'] as String? ?? '',
+      category: json['category'] as String?,
       options: (json['options'] as List<dynamic>)
           .map((o) => QuestionOption.fromJson(o as Map<String, dynamic>))
           .toList(),
@@ -25,6 +28,7 @@ class Question {
     return {
       'id': id,
       'text': text,
+      'category': category,
       'options': options.map((o) => o.toJson()).toList(),
     };
   }

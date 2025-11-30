@@ -8,7 +8,14 @@ class AppTextStyles {
   // 기본 폰트 패밀리
   static const String fontFamily = 'Pretendard';
 
-  // Display - 28pt Bold (가장 큰 제목)
+  // Private 생성자 (인스턴스화 방지)
+  AppTextStyles._();
+
+  // ==========================================
+  // 새로 추가된 스타일 (Personality Test용)
+  // ==========================================
+
+  // 1. 히어로 (Display) - 28pt Bold
   static const TextStyle display = TextStyle(
     fontFamily: fontFamily,
     fontSize: 28,
@@ -17,7 +24,7 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
-  // Page Title - 24pt Bold (페이지 제목)
+  // 2. 페이지 타이틀 (Page Title) - 24pt Bold
   static const TextStyle pageTitle = TextStyle(
     fontFamily: fontFamily,
     fontSize: 24,
@@ -26,7 +33,7 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
-  // Section Title - 20pt Semibold (섹션 제목)
+  // 3. 섹션 타이틀 (Section Title) - 20pt Semibold
   static const TextStyle sectionTitle = TextStyle(
     fontFamily: fontFamily,
     fontSize: 20,
@@ -35,7 +42,7 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
-  // Card Title - 18pt Semibold (카드 제목)
+  // 4. 카드 타이틀 (Card Title) - 18pt Semibold
   static const TextStyle cardTitle = TextStyle(
     fontFamily: fontFamily,
     fontSize: 18,
@@ -44,7 +51,7 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
-  // Body Large - 17pt Regular (큰 본문)
+  // 5. 중요 본문 (Body Large) - 17pt Regular
   static const TextStyle bodyLarge = TextStyle(
     fontFamily: fontFamily,
     fontSize: 17,
@@ -53,7 +60,7 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
-  // Body - 16pt Regular (일반 본문)
+  // 6. 기본 본문 (Body) - 16pt Regular
   static const TextStyle body = TextStyle(
     fontFamily: fontFamily,
     fontSize: 16,
@@ -62,7 +69,7 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
-  // Body Small - 15pt Regular (작은 본문)
+  // 7. 작은 본문 (Body Small) - 15pt Regular
   static const TextStyle bodySmall = TextStyle(
     fontFamily: fontFamily,
     fontSize: 15,
@@ -71,7 +78,7 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
-  // Tab Label - 14pt Semibold (탭 레이블)
+  // 8. 탭 라벨 (Tab Label) - 14pt Semibold
   static const TextStyle tabLabel = TextStyle(
     fontFamily: fontFamily,
     fontSize: 14,
@@ -80,16 +87,16 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
-  // Caption - 12pt Regular (캡션)
+  // 9. 태그/힌트/시간 (Caption) - 12pt Regular
   static const TextStyle caption = TextStyle(
     fontFamily: fontFamily,
     fontSize: 12,
     fontWeight: FontWeight.w400,
     height: 1.4,
-    color: AppColors.textTertiary,
+    color: AppColors.textPrimary,
   );
 
-  // Button Primary - 16pt Bold (주요 버튼)
+  // 10. CTA 버튼 (Button Primary) - 16pt Bold
   static const TextStyle buttonPrimary = TextStyle(
     fontFamily: fontFamily,
     fontSize: 16,
@@ -98,7 +105,7 @@ class AppTextStyles {
     color: AppColors.background,
   );
 
-  // Button - 15pt Semibold (일반 버튼)
+  // 11. 일반 버튼 (Button) - 15pt Semibold
   static const TextStyle button = TextStyle(
     fontFamily: fontFamily,
     fontSize: 15,
@@ -106,7 +113,4 @@ class AppTextStyles {
     height: 1.2,
     color: AppColors.textPrimary,
   );
-
-  // Private 생성자 - 인스턴스 생성 방지
-  AppTextStyles._();
 }
