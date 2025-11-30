@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'core/app_theme.dart';
 import 'core/app_colors.dart';
 import 'core/app_text_styles.dart';
 import 'core/app_spacing.dart';
 import 'core/constants.dart';
+import 'viewmodels/personality_test_viewmodel.dart';
+import 'views/pages/onboarding/personality_test_page.dart';
 
 void main() {
   runApp(const OngiApp());
@@ -14,11 +17,16 @@ class OngiApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: AppConstants.appName,
-      theme: AppTheme.lightTheme,
-      home: const WelcomePage(),
-      debugShowCheckedModeBanner: false,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => PersonalityTestViewModel()),
+      ],
+      child: MaterialApp(
+        title: AppConstants.appName,
+        theme: AppTheme.lightTheme,
+        home: const WelcomePage(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
@@ -65,10 +73,9 @@ class WelcomePage extends StatelessWidget {
                 height: 56,
                 child: ElevatedButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('✨ Sprint 1에서 성격 테스트 구현 예정'),
-                        duration: Duration(seconds: 2),
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const PersonalityTestPage(),
                       ),
                     );
                   },
@@ -80,7 +87,7 @@ class WelcomePage extends StatelessWidget {
               
               // 버전 정보
               Text(
-                'v${AppConstants.appVersion} | Sprint 0',
+                'v${AppConstants.appVersion} | Sprint 1',
                 style: AppTextStyles.caption.copyWith(
                   color: AppColors.textDisabled,
                 ),
