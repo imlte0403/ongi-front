@@ -1,7 +1,8 @@
 {
-  "buildCommand": "echo 'Skipping build - handled by GitHub Actions'",
+  "github": {
+    "silent": true
+  },
   "outputDirectory": "build/web",
-  "installCommand": "echo 'No install needed'",
   "rewrites": [
     {
       "source": "/(.*)",
