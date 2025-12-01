@@ -1,5 +1,5 @@
 {
-  "buildCommand": "chmod +x install-flutter.sh && ./install-flutter.sh",
+  "_comment": "로컬 빌드 후 배포 시 사용할 vercel.json (buildCommand 제거)",
   "outputDirectory": "build/web",
   "rewrites": [
     {
