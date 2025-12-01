@@ -8,12 +8,13 @@ FLUTTER_SDK_URL="https://storage.googleapis.com/flutter_infra_release/releases/s
 echo "📦 Flutter SDK 다운로드 중..."
 curl -L "$FLUTTER_SDK_URL" | tar -xJ
 
-# Flutter SDK의 .git 디렉토리 제거 (Vercel 빌드 환경에서 Git 소유권 오류 방지)
-echo "🧹 Flutter SDK 정리 중..."
-rm -rf flutter/.git
+# Git 소유권 오류 방지 설정 (Vercel 환경 대응)
+echo "🔧 Git safe directory 설정 중..."
+FLUTTER_DIR="$PWD/flutter"
+git config --global --add safe.directory "$FLUTTER_DIR"
 
 # PATH에 Flutter 추가
-export PATH="$PWD/flutter/bin:$PATH"
+export PATH="$FLUTTER_DIR/bin:$PATH"
 
 # Flutter 확인
 echo "🔍 Flutter 설치 확인 중..."
