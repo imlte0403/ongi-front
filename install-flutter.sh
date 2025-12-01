@@ -2,7 +2,7 @@
 set -e
 
 # Flutter SDK 설치
-FLUTTER_VERSION="3.24.5"
+FLUTTER_VERSION="3.27.1"
 FLUTTER_SDK_URL="https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz"
 
 echo "📦 Flutter SDK 다운로드 중..."
