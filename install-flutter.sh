@@ -35,9 +35,15 @@ flutter --version
 echo "📚 Flutter 패키지 설치 중..."
 flutter pub get
 
-# 빌드
+# API URL 확인 (Vercel 환경 변수에서 받아옴)
+if [ -z "$API_URL" ]; then
+  echo "⚠️  환경 변수 API_URL이 설정되지 않았습니다. 기본값(localhost)으로 빌드됩니다."
+else
+  echo "🌐 API_URL 설정 감지: $API_URL"
+fi
+
+# 빌드 (API_URL을 빌드 타임에 주입)
 echo "🏗️ Flutter Web 빌드 중..."
-flutter build web --release
+flutter build web --release ${API_URL:+--dart-define=API_URL=$API_URL}
 
 echo "✅ 빌드 완료!"
-
