@@ -115,9 +115,9 @@ class RecommendedClubCard extends StatelessWidget {
             children: club.tags.map((tag) {
               // 태그 아이콘 매핑 (간단한 로직)
               String icon = '';
-              if (tag.contains('한강'))
+              if (tag.contains('한강')) {
                 icon = '📍 ';
-              else if (tag.contains('주'))
+              } else if (tag.contains('주'))
                 icon = '🗓️ ';
               else if (tag.contains('명')) icon = '👥 ';
 

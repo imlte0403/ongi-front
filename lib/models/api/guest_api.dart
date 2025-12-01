@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import '../entities/question_model.dart';
 import '../entities/guest_answer_model.dart';
 import '../entities/guest_result_model.dart';
@@ -87,6 +88,13 @@ class GuestApi {
   Future<GuestResult> getResult(String sessionId) async {
     try {
       final response = await _dio.get('/guest/result/$sessionId');
+      // 1) 상태 코드 확인
+debugPrint('GUEST API status: ${response.statusCode}');
+// 2) data 타입 확인
+debugPrint('GUEST API data type: ${response.data.runtimeType}');
+// 3) 실제 데이터 일부 확인
+debugPrint('GUEST API raw data: ${response.data}');
+      
       final result = GuestResult.fromJson(
         response.data['data'] as Map<String, dynamic>,
       );
