@@ -1,6 +1,7 @@
 {
-  "buildCommand": "chmod +x install-flutter.sh && ./install-flutter.sh",
+  "buildCommand": "echo 'Skipping build - handled by GitHub Actions'",
   "outputDirectory": "build/web",
+  "installCommand": "echo 'No install needed'",
   "rewrites": [
     {
       "source": "/(.*)",
