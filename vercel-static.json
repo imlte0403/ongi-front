@@ -1,8 +1,8 @@
 {
-  "github": {
-    "silent": true
-  },
+  "version": 2,
+  "buildCommand": "echo 'Static deployment - no build needed'",
   "outputDirectory": "build/web",
+  "installCommand": "echo 'No install needed'",
   "rewrites": [
     {
       "source": "/(.*)",
@@ -39,4 +39,3 @@
     }
   ]
 }
-

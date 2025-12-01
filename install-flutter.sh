@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Flutter SDK 설치 (임시 디렉토리 사용)
-FLUTTER_VERSION="3.24.5"
+# Flutter SDK 설치
+FLUTTER_VERSION="3.38.3"
 FLUTTER_SDK_URL="https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz"
 
 # 임시 디렉토리에 Flutter SDK 설치 (프로젝트 루트 오염 방지)

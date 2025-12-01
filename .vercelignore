@@ -1,0 +1,27 @@
+# Flutter 소스 파일 (빌드 결과물만 필요)
+lib/
+test/
+assets/
+*.dart
+pubspec.yaml
+pubspec.lock
+analysis_options.yaml
+.metadata
+
+# Flutter SDK (GitHub Actions에서 빌드됨)
+flutter/
+
+# IDE 설정
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# 문서
+docs/
+README.md
+
+# 스크립트 (Vercel에서 실행 안 함)
+*.sh
