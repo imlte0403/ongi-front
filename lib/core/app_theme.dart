@@ -7,6 +7,9 @@ class AppTheme {
   /// 라이트 테마
   static ThemeData get lightTheme {
     return ThemeData(
+      // 전역 폰트 패밀리 (Pretendard만 사용)
+      fontFamily: 'Pretendard',
+
       // 색상 스킴
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
