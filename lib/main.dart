@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 import 'core/app_theme.dart';
 import 'core/app_colors.dart';
@@ -6,10 +7,20 @@ import 'core/app_text_styles.dart';
 import 'core/app_spacing.dart';
 import 'core/constants.dart';
 import 'viewmodels/personality_test_viewmodel.dart';
+import 'viewmodels/auth_viewmodel.dart';
 import 'views/pages/onboarding/personality_test_page.dart';
-
+import 'views/pages/auth/kakao_login_page.dart';
+import 'views/pages/auth/kakao_callback_page.dart';
 
 void main() {
+  // 카카오 SDK 초기화 (웹 환경)
+  KakaoSdk.init(
+    javaScriptAppKey: const String.fromEnvironment(
+      'KAKAO_JS_KEY',
+      defaultValue: 'YOUR_JAVASCRIPT_KEY', // 개발 시 임시 키
+    ),
+  );
+
   runApp(const OngiApp());
 }
 
@@ -21,11 +32,17 @@ class OngiApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => PersonalityTestViewModel()),
+        ChangeNotifierProvider(create: (_) => AuthViewModel()),
       ],
       child: MaterialApp(
         title: AppConstants.appName,
         theme: AppTheme.lightTheme,
-        home: const WelcomePage(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const WelcomePage(),
+          '/login': (context) => const KakaoLoginPage(),
+          '/auth/kakao/callback': (context) => const KakaoCallbackPage(),
+        },
         debugShowCheckedModeBanner: false,
       ),
     );
@@ -56,7 +73,7 @@ class WelcomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: AppSpacing.md),
-              
+
               // 설명
               Text(
                 '성향 기반 취미 매칭 플랫폼',
@@ -65,9 +82,9 @@ class WelcomePage extends StatelessWidget {
                   letterSpacing: 1,
                 ),
               ),
-              
+
               const SizedBox(height: 80),
-              
+
               // 시작 버튼
               SizedBox(
                 width: double.infinity,
@@ -83,9 +100,9 @@ class WelcomePage extends StatelessWidget {
                   child: const Text('테스트 시작하기'),
                 ),
               ),
-              
+
               const SizedBox(height: AppSpacing.lg),
-              
+
               // 버전 정보
               Text(
                 'v${AppConstants.appVersion} | Sprint 1',

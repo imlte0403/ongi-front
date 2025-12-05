@@ -44,9 +44,12 @@ class ClubRecommendationPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('당신을 위한 모임 TOP 3',
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w600,),),
+        title: Text(
+          '당신을 위한 모임 TOP 3',
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+        ),
         centerTitle: true,
         backgroundColor: AppColors.white,
         elevation: 0,
@@ -86,11 +89,8 @@ class ClubRecommendationPage extends StatelessWidget {
                   CustomButton(
                     text: '프로필 만들고 모임 참여하기',
                     onPressed: () {
-                      // TODO: Sprint 2 - Navigate to Profile Creation Page
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('프로필 생성 페이지로 이동합니다 (Sprint 2)')),
-                      );
+                      // 카카오 로그인 페이지로 이동
+                      Navigator.of(context).pushNamed('/login');
                     },
                   ),
                 ],
