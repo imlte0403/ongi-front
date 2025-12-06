@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
-import 'core/app_theme.dart';
-import 'core/app_colors.dart';
-import 'core/app_text_styles.dart';
-import 'core/app_spacing.dart';
-import 'core/constants.dart';
-import 'viewmodels/personality_test_viewmodel.dart';
-import 'viewmodels/auth_viewmodel.dart';
-import 'views/pages/onboarding/personality_test_page.dart';
-import 'views/pages/onboarding/club_recommendation_page.dart';
-import 'views/pages/auth/kakao_login_page.dart';
-import 'views/pages/auth/kakao_callback_page.dart';
-import 'views/pages/profile/profile_setup_page.dart';
+import 'dart:html' as html;
+import 'package:ongi_front/core/app_theme.dart';
+import 'package:ongi_front/core/app_colors.dart';
+import 'package:ongi_front/core/app_text_styles.dart';
+import 'package:ongi_front/core/app_spacing.dart';
+import 'package:ongi_front/core/constants.dart';
+import 'package:ongi_front/utils/app_logger.dart';
+import 'package:ongi_front/viewmodels/personality_test_viewmodel.dart';
+import 'package:ongi_front/viewmodels/auth_viewmodel.dart';
+import 'package:ongi_front/views/pages/onboarding/personality_test_page.dart';
+import 'package:ongi_front/views/pages/onboarding/club_recommendation_page.dart';
+import 'package:ongi_front/views/pages/auth/kakao_login_page.dart';
+import 'package:ongi_front/views/pages/auth/kakao_callback_page.dart';
+import 'package:ongi_front/views/pages/profile/profile_setup_page.dart';
 
 void main() {
   // 카카오 SDK 초기화 (웹 환경)
@@ -23,20 +25,20 @@ void main() {
 
   // JavaScript 키 검증
   if (jsKey == 'YOUR_JAVASCRIPT_KEY' || jsKey.isEmpty) {
-    print('⚠️ [카카오 SDK] JavaScript 키가 설정되지 않았습니다.');
-    print('   launch.json에서 --dart-define=KAKAO_JS_KEY=your_key 설정을 확인하세요.');
+    AppLogger.warning('[카카오 SDK] JavaScript 키가 설정되지 않았습니다.');
+    AppLogger.debug(
+        '   launch.json에서 --dart-define=KAKAO_JS_KEY=your_key 설정을 확인하세요.');
   } else {
-    print('✅ [카카오 SDK] JavaScript 키 로드 완료 (길이: ${jsKey.length})');
+    AppLogger.success('[카카오 SDK] JavaScript 키 로드 완료 (길이: ${jsKey.length})');
   }
 
   try {
     KakaoSdk.init(
       javaScriptAppKey: jsKey,
     );
-    print('✅ [카카오 SDK] 초기화 완료');
+    AppLogger.success('[카카오 SDK] 초기화 완료');
   } catch (e) {
-    print('❌ [카카오 SDK] 초기화 실패: $e');
-    // 초기화 실패해도 앱은 실행 (에러는 로그인 시점에 처리)
+    AppLogger.error('[카카오 SDK] 초기화 실패: $e');
   }
 
   runApp(const OngiApp());
@@ -55,15 +57,36 @@ class OngiApp extends StatelessWidget {
       child: MaterialApp(
         title: AppConstants.appName,
         theme: AppTheme.lightTheme,
-        initialRoute: '/',
+        initialRoute: _getInitialRoute(),
         routes: {
           '/': (context) => _getInitialPage(),
           '/login': (context) => const KakaoLoginPage(),
           '/auth/kakao/callback': (context) => const KakaoCallbackPage(),
+          '/club-recommendation': (context) => const ClubRecommendationPage(),
         },
         debugShowCheckedModeBanner: false,
       ),
     );
+  }
+
+  /// 현재 URL 경로를 기반으로 초기 라우트 결정
+  /// 카카오 콜백 리다이렉트를 처리하기 위함
+  String _getInitialRoute() {
+    final currentPath = html.window.location.pathname ?? '/';
+    final queryString = html.window.location.search ?? '';
+
+    AppLogger.search('[라우팅] 현재 경로: $currentPath');
+    AppLogger.search('[라우팅] 쿼리: $queryString');
+
+    // 카카오 콜백 경로 확인
+    if (currentPath.contains('/auth/kakao/callback') ||
+        queryString.contains('code=')) {
+      AppLogger.success('[라우팅] 카카오 콜백 감지! → /auth/kakao/callback');
+      return '/auth/kakao/callback';
+    }
+
+    // 기본 라우트
+    return '/';
   }
 
   /// 개발 모드에 따라 초기 페이지 결정

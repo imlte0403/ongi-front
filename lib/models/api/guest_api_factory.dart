@@ -1,9 +1,10 @@
-import '../entities/question_model.dart';
-import '../entities/guest_answer_model.dart';
-import '../entities/guest_result_model.dart';
-import 'guest_api.dart';
-import 'mock_guest_api.dart';
-import '../../core/constants.dart';
+import 'package:ongi_front/models/entities/question_model.dart';
+import 'package:ongi_front/models/entities/guest_answer_model.dart';
+import 'package:ongi_front/models/entities/guest_result_model.dart';
+import 'package:ongi_front/models/api/guest_api.dart';
+import 'package:ongi_front/models/api/mock_guest_api.dart';
+import 'package:ongi_front/core/constants.dart';
+import 'package:ongi_front/utils/app_logger.dart';
 
 /// Guest API 인터페이스
 /// Real API와 Mock API 모두 이 인터페이스를 구현
@@ -24,11 +25,11 @@ class GuestApiFactory {
         const bool.fromEnvironment('USE_MOCK_API', defaultValue: false);
 
     if (useMock) {
-      print('🔶 [API] Mock API 사용 (USE_MOCK_API=true)');
+      AppLogger.warning('[API] Mock API 사용 (USE_MOCK_API=true)');
       return MockGuestApiAdapter();
     } else {
-      print('🌐 [API] Real API 사용: ${AppConstants.apiBaseUrl}');
-      print('   백엔드 서버가 실행 중인지 확인하세요.');
+      AppLogger.info('[API] Real API 사용: ${AppConstants.apiBaseUrl}');
+      AppLogger.debug('   백엔드 서버가 실행 중인지 확인하세요.');
       return RealGuestApiAdapter();
     }
   }

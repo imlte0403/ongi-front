@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'api_client.dart';
+import 'package:ongi_front/models/api/api_client.dart';
+import 'package:ongi_front/utils/app_logger.dart';
 
 /// 프로필 API
 class ProfileApi {
@@ -19,7 +20,7 @@ class ProfileApi {
     String? profileType,
   }) async {
     try {
-      print('📝 [프로필] 프로필 생성/수정 요청');
+      AppLogger.debug('📝 [프로필] 프로필 생성/수정 요청');
 
       final response = await _dio.post('/users/profile', data: {
         'user_id': userId,
@@ -32,13 +33,13 @@ class ProfileApi {
         if (profileType != null) 'profile_type': profileType,
       });
 
-      print('✅ [프로필] 프로필 저장 완료: ${response.statusCode}');
+      AppLogger.success('[프로필] 프로필 저장 완료: ${response.statusCode}');
 
       return response.data['data'] as Map<String, dynamic>;
     } on DioException catch (e) {
-      print('❌ [프로필] 저장 실패: ${e.message}');
+      AppLogger.error('[프로필] 저장 실패: ${e.message}');
       if (e.response != null) {
-        print('   응답: ${e.response!.data}');
+        AppLogger.debug('   응답: ${e.response!.data}');
         final errorMsg = e.response!.data['error'] ?? '프로필 저장 실패';
         throw Exception(errorMsg);
       }
@@ -51,17 +52,17 @@ class ProfileApi {
   /// 사용자의 프로필, 성향 분석, 유사 사용자, 추천 클럽 정보를 조회합니다.
   Future<Map<String, dynamic>> getProfile(int userId) async {
     try {
-      print('📖 [프로필] 프로필 조회: userId=$userId');
+      AppLogger.debug('📖 [프로필] 프로필 조회: userId=$userId');
 
       final response = await _dio.get('/users/$userId/profile');
 
-      print('✅ [프로필] 프로필 조회 완료');
+      AppLogger.success('[프로필] 프로필 조회 완료');
 
       return response.data['data'] as Map<String, dynamic>;
     } on DioException catch (e) {
-      print('❌ [프로필] 조회 실패: ${e.message}');
+      AppLogger.error('[프로필] 조회 실패: ${e.message}');
       if (e.response != null) {
-        print('   응답: ${e.response!.data}');
+        AppLogger.debug('   응답: ${e.response!.data}');
         final errorMsg = e.response!.data['error'] ?? '프로필 조회 실패';
         throw Exception(errorMsg);
       }
@@ -71,4 +72,3 @@ class ProfileApi {
 }
 
 final profileApi = ProfileApi();
-

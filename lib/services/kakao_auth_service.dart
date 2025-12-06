@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:html' as html;
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:ongi_front/utils/app_logger.dart';
 
 class KakaoAuthService {
   /// 카카오 로그인 (웹용: 리다이렉트 방식)
@@ -8,7 +9,7 @@ class KakaoAuthService {
   /// 웹 환경에서는 SDK를 사용하되, 실패 시 직접 URL을 열어 리다이렉트합니다.
   Future<String?> loginForWeb({required String redirectUri}) async {
     try {
-      print('🌐 [카카오 웹 로그인] Redirect URI: $redirectUri');
+      AppLogger.info('[카카오 웹 로그인] Redirect URI: $redirectUri');
 
       // 방법 1: SDK를 통한 인증 시도
       try {
@@ -22,25 +23,25 @@ class KakaoAuthService {
           throw Exception('JavaScript 키가 설정되지 않았습니다');
         }
 
-        print('📱 [방법 1] SDK를 통한 인증 시도');
+        AppLogger.debug('📱 [방법 1] SDK를 통한 인증 시도');
 
         // SDK를 통한 인증 (AuthCodeClient.instance는 싱글톤이므로 항상 존재)
         await AuthCodeClient.instance.authorize(
           redirectUri: redirectUri,
         );
 
-        print('✅ [방법 1] SDK 인증 성공');
+        AppLogger.success('[방법 1] SDK 인증 성공');
         return '인가코드는 Redirect URI에서 추출';
       } catch (sdkError) {
-        print('⚠️ [방법 1] SDK 인증 실패: $sdkError');
-        print('📱 [방법 2] 직접 URL 열기로 폴백');
+        AppLogger.warning('[방법 1] SDK 인증 실패: $sdkError');
+        AppLogger.debug('📱 [방법 2] 직접 URL 열기로 폴백');
 
         // 방법 2: 직접 URL 열기 (폴백)
         return await _loginWithDirectUrl(redirectUri: redirectUri);
       }
     } catch (error) {
-      print('❌ 카카오 웹 로그인 실패: $error');
-      print('   스택 트레이스: ${error.toString()}');
+      AppLogger.error('카카오 웹 로그인 실패: $error');
+      AppLogger.debug('   스택 트레이스: ${error.toString()}');
       return null;
     }
   }
@@ -68,7 +69,7 @@ class KakaoAuthService {
         },
       );
 
-      print('🔗 [방법 2] 카카오 인증 URL: $authUrl');
+      AppLogger.link('[방법 2] 카카오 인증 URL: $authUrl');
 
       // 브라우저에서 URL 열기
       html.window.location.href = authUrl.toString();
@@ -76,7 +77,7 @@ class KakaoAuthService {
       // 리다이렉트되므로 이 코드는 실행되지 않음
       return '리다이렉트됨';
     } catch (error) {
-      print('❌ 직접 URL 열기 실패: $error');
+      AppLogger.error('직접 URL 열기 실패: $error');
       return null;
     }
   }
@@ -90,12 +91,12 @@ class KakaoAuthService {
     final error = uri.queryParameters['error'];
 
     if (error != null) {
-      print('❌ 카카오 인증 에러: $error');
+      AppLogger.error('카카오 인증 에러: $error');
       return null;
     }
 
     if (code != null) {
-      print('✅ 인가 코드 받음: $code');
+      AppLogger.success('인가 코드 받음: $code');
       return code;
     }
 
@@ -105,7 +106,8 @@ class KakaoAuthService {
   /// 인가 코드로 카카오 Access Token 받기
   ///
   /// 인가 코드를 사용하여 카카오 Access Token을 발급받습니다.
-  Future<String?> getAccessTokenFromCode(String authCode, String redirectUri) async {
+  Future<String?> getAccessTokenFromCode(
+      String authCode, String redirectUri) async {
     try {
       final jsKey = const String.fromEnvironment(
         'KAKAO_JS_KEY',
@@ -116,11 +118,11 @@ class KakaoAuthService {
         throw Exception('JavaScript 키가 설정되지 않았습니다');
       }
 
-      print('🔑 [카카오] 인가 코드로 Access Token 요청 중...');
+      AppLogger.auth('[카카오] 인가 코드로 Access Token 요청 중...');
 
       // 카카오 토큰 요청
       final tokenUrl = Uri.https('kauth.kakao.com', '/oauth/token');
-      
+
       final response = await html.HttpRequest.request(
         tokenUrl.toString(),
         method: 'POST',
@@ -138,9 +140,9 @@ class KakaoAuthService {
       if (response.status == 200) {
         final data = jsonDecode(response.responseText!);
         final accessToken = data['access_token'] as String?;
-        
+
         if (accessToken != null) {
-          print('✅ [카카오] Access Token 받음');
+          AppLogger.success('[카카오] Access Token 받음');
           return accessToken;
         } else {
           throw Exception('Access Token을 받을 수 없습니다');
@@ -149,7 +151,7 @@ class KakaoAuthService {
         throw Exception('카카오 토큰 요청 실패: ${response.status}');
       }
     } catch (error) {
-      print('❌ 카카오 Access Token 받기 실패: $error');
+      AppLogger.error('카카오 Access Token 받기 실패: $error');
       return null;
     }
   }
@@ -163,9 +165,9 @@ class KakaoAuthService {
   Future<void> logout() async {
     try {
       await UserApi.instance.logout();
-      print('✅ 카카오 로그아웃 성공');
+      AppLogger.success('카카오 로그아웃 성공');
     } catch (error) {
-      print('❌ 카카오 로그아웃 실패: $error');
+      AppLogger.error('카카오 로그아웃 실패: $error');
     }
   }
 
@@ -173,9 +175,9 @@ class KakaoAuthService {
   Future<void> unlink() async {
     try {
       await UserApi.instance.unlink();
-      print('✅ 카카오 연결 해제 성공');
+      AppLogger.success('카카오 연결 해제 성공');
     } catch (error) {
-      print('❌ 카카오 연결 해제 실패: $error');
+      AppLogger.error('카카오 연결 해제 실패: $error');
     }
   }
 }

@@ -1,7 +1,8 @@
 import 'dart:math';
-import '../entities/question_model.dart';
-import '../entities/guest_answer_model.dart';
-import '../entities/guest_result_model.dart';
+import 'package:ongi_front/models/entities/question_model.dart';
+import 'package:ongi_front/models/entities/guest_answer_model.dart';
+import 'package:ongi_front/models/entities/guest_result_model.dart';
+import 'package:ongi_front/utils/app_logger.dart';
 
 /// Mock Guest API - 백엔드 없이 로컬 개발용
 /// 실제 백엔드 API와 동일한 인터페이스 제공
@@ -15,7 +16,7 @@ class MockGuestApi {
     await Future.delayed(const Duration(milliseconds: 500));
 
     final sessionId = _generateSessionId();
-    print('✅ [MOCK] Guest Session 생성: $sessionId');
+    AppLogger.success('[MOCK] Guest Session 생성: $sessionId');
     return sessionId;
   }
 
@@ -25,7 +26,7 @@ class MockGuestApi {
     await Future.delayed(const Duration(milliseconds: 300));
 
     final questions = _getMockQuestions();
-    print('✅ [MOCK] 질문 ${questions.length}개 조회');
+    AppLogger.success('[MOCK] 질문 ${questions.length}개 조회');
     return questions;
   }
 
@@ -37,7 +38,7 @@ class MockGuestApi {
   ) async {
     await Future.delayed(const Duration(milliseconds: 700));
 
-    print('✅ [MOCK] 답변 ${answers.length}개 제출 완료');
+    AppLogger.success('[MOCK] 답변 ${answers.length}개 제출 완료');
   }
 
   /// 4. 결과 조회 (Mock)
@@ -46,7 +47,7 @@ class MockGuestApi {
     await Future.delayed(const Duration(milliseconds: 800));
 
     final result = _getMockResult(sessionId);
-    print('✅ [MOCK] 결과 조회: ${result.profileType}');
+    AppLogger.success('[MOCK] 결과 조회: ${result.profileType}');
     return result;
   }
 
