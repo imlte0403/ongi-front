@@ -44,19 +44,36 @@ class AuthViewModel extends ChangeNotifier {
 
   /// 카카오 인가 코드로 로그인
   ///
-  /// 콜백 페이지에서 받은 인가 코드를 백엔드로 전달하여
-  /// JWT 토큰을 받습니다.
+  /// 콜백 페이지에서 받은 인가 코드를 카카오 Access Token으로 변환한 후
+  /// 백엔드로 전달하여 JWT 토큰을 받습니다.
   Future<void> loginWithKakaoAuthCode(String authCode) async {
     _setLoading(true);
     _setError(null);
 
     try {
-      print('🔑 [Step 1] 인가 코드를 백엔드로 전달');
+      // Redirect URI 재구성 (콜백 URL에서)
+      final origin = html.window.location.origin;
+      final redirectUri = '$origin/auth/kakao/callback';
 
-      // 백엔드로 인가 코드 전달
-      final authResponse = await authApi.loginWithKakaoAuthCode(authCode);
+      print('🔑 [Step 1] 인가 코드로 카카오 Access Token 받기');
 
-      print('✅ [Step 2] 백엔드 인증 성공');
+      // 인가 코드로 카카오 Access Token 받기
+      final kakaoAccessToken = await kakaoAuthService.getAccessTokenFromCode(
+        authCode,
+        redirectUri,
+      );
+
+      if (kakaoAccessToken == null) {
+        throw Exception('카카오 Access Token을 받을 수 없습니다');
+      }
+
+      print('✅ [Step 2] 카카오 Access Token 받음');
+
+      // 백엔드로 카카오 Access Token 전달
+      print('🔑 [Step 3] 백엔드로 Access Token 전달');
+      final authResponse = await authApi.loginWithKakaoAccessToken(kakaoAccessToken);
+
+      print('✅ [Step 4] 백엔드 인증 성공');
 
       // JWT 토큰 로컬 스토리지에 저장
       await StorageService.saveTokens(
@@ -64,7 +81,7 @@ class AuthViewModel extends ChangeNotifier {
         authResponse.refreshToken,
       );
 
-      print('✅ [Step 3] JWT 토큰 저장 완료');
+      print('✅ [Step 5] JWT 토큰 저장 완료');
 
       // 사용자 정보 설정
       _currentUser = authResponse.user;
@@ -74,6 +91,7 @@ class AuthViewModel extends ChangeNotifier {
       print('  - 사용자 ID: ${_currentUser!.id}');
       print('  - 이름: ${_currentUser!.name}');
       print('  - 이메일: ${_currentUser!.email}');
+      print('  - 신규 사용자: ${authResponse.isNewUser}');
 
       _setLoading(false);
     } catch (e) {

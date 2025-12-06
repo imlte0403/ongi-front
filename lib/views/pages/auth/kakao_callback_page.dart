@@ -4,6 +4,7 @@ import 'dart:html' as html;
 import '../../../viewmodels/auth_viewmodel.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/app_spacing.dart';
+import '../profile/profile_setup_page.dart';
 
 class KakaoCallbackPage extends StatefulWidget {
   const KakaoCallbackPage({super.key});
@@ -61,20 +62,29 @@ class _KakaoCallbackPageState extends State<KakaoCallbackPage> {
       if (!mounted) return;
 
       // 로그인 성공 시 프로필 설정 페이지로 이동
-      if (authViewModel.error == null) {
-        // TODO: 프로필 설정 페이지 구현 후 수정
-        Navigator.of(context).pushReplacementNamed('/');
+      if (authViewModel.error == null && authViewModel.currentUser != null) {
+        final user = authViewModel.currentUser!;
+
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => ProfileSetupPage(
+              nickname: user.name,
+              email: user.email,
+              profileImageUrl: user.profileImageUrl,
+            ),
+          ),
+        );
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('로그인 성공! 🎉'),
+            content: Text('로그인 성공! 🎉 프로필을 설정해주세요.'),
             backgroundColor: AppColors.success,
           ),
         );
       } else {
         // 로그인 실패
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(authViewModel.error!)),
+          SnackBar(content: Text(authViewModel.error ?? '로그인 실패')),
         );
         Navigator.of(context).pushReplacementNamed('/');
       }
