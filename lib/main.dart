@@ -9,17 +9,35 @@ import 'core/constants.dart';
 import 'viewmodels/personality_test_viewmodel.dart';
 import 'viewmodels/auth_viewmodel.dart';
 import 'views/pages/onboarding/personality_test_page.dart';
+import 'views/pages/onboarding/club_recommendation_page.dart';
 import 'views/pages/auth/kakao_login_page.dart';
 import 'views/pages/auth/kakao_callback_page.dart';
+import 'views/pages/profile/profile_setup_page.dart';
 
 void main() {
   // 카카오 SDK 초기화 (웹 환경)
-  KakaoSdk.init(
-    javaScriptAppKey: const String.fromEnvironment(
-      'KAKAO_JS_KEY',
-      defaultValue: 'YOUR_JAVASCRIPT_KEY', // 개발 시 임시 키
-    ),
+  final jsKey = const String.fromEnvironment(
+    'KAKAO_JS_KEY',
+    defaultValue: 'YOUR_JAVASCRIPT_KEY',
   );
+
+  // JavaScript 키 검증
+  if (jsKey == 'YOUR_JAVASCRIPT_KEY' || jsKey.isEmpty) {
+    print('⚠️ [카카오 SDK] JavaScript 키가 설정되지 않았습니다.');
+    print('   launch.json에서 --dart-define=KAKAO_JS_KEY=your_key 설정을 확인하세요.');
+  } else {
+    print('✅ [카카오 SDK] JavaScript 키 로드 완료 (길이: ${jsKey.length})');
+  }
+
+  try {
+    KakaoSdk.init(
+      javaScriptAppKey: jsKey,
+    );
+    print('✅ [카카오 SDK] 초기화 완료');
+  } catch (e) {
+    print('❌ [카카오 SDK] 초기화 실패: $e');
+    // 초기화 실패해도 앱은 실행 (에러는 로그인 시점에 처리)
+  }
 
   runApp(const OngiApp());
 }
@@ -39,13 +57,35 @@ class OngiApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         initialRoute: '/',
         routes: {
-          '/': (context) => const WelcomePage(),
+          '/': (context) => _getInitialPage(),
           '/login': (context) => const KakaoLoginPage(),
           '/auth/kakao/callback': (context) => const KakaoCallbackPage(),
         },
         debugShowCheckedModeBanner: false,
       ),
     );
+  }
+
+  /// 개발 모드에 따라 초기 페이지 결정
+  Widget _getInitialPage() {
+    // SKIP_TO_PROFILE=true: 프로필 설정 페이지로 (개발용)
+    if (AppConstants.skipToProfile) {
+      return const ProfileSetupPage(
+        nickname: '달려라 사자',
+        email: 'test@kakao.com',
+        profileImageUrl: null,
+      );
+    }
+    // SKIP_TO_RESULT=true: 바로 결과 페이지로 (개발용)
+    if (AppConstants.skipToResult) {
+      return const ClubRecommendationPage();
+    }
+    // SKIP_ONBOARDING=true: 테스트 페이지로 (온보딩 스킵)
+    if (AppConstants.skipOnboarding) {
+      return const PersonalityTestPage();
+    }
+    // 기본: 환영 페이지
+    return const WelcomePage();
   }
 }
 

@@ -18,16 +18,17 @@ abstract class IGuestApi {
 /// 환경 변수에 따라 Real API 또는 Mock API 반환
 class GuestApiFactory {
   static IGuestApi create() {
-    // 환경 변수 USE_MOCK_API가 true이거나, baseUrl이 localhost인 경우 Mock 사용
+    // 환경 변수 USE_MOCK_API가 true인 경우에만 Mock 사용
+    // localhost여도 실제 백엔드 API를 사용 (백엔드 서버가 실행 중이어야 함)
     final useMock =
         const bool.fromEnvironment('USE_MOCK_API', defaultValue: false);
-    final isLocalhost = AppConstants.apiBaseUrl.contains('localhost');
 
-    if (useMock || isLocalhost) {
-      print('🔶 [API] Mock API 사용 (백엔드 없이 로컬 개발)');
+    if (useMock) {
+      print('🔶 [API] Mock API 사용 (USE_MOCK_API=true)');
       return MockGuestApiAdapter();
     } else {
       print('🌐 [API] Real API 사용: ${AppConstants.apiBaseUrl}');
+      print('   백엔드 서버가 실행 중인지 확인하세요.');
       return RealGuestApiAdapter();
     }
   }
