@@ -55,4 +55,5 @@ app.*.map.json
 .env
 .env.local
 .env.*.local
-/.vscode/launch.json
+# VS Code launch config (contains secrets)
+.vscode/launch.json

@@ -193,9 +193,9 @@ docs/
 ### Flutter 빌드 최적화
 
 ```bash
-# 웹 렌더러 선택
-flutter build web --web-renderer canvaskit  # 더 나은 성능
-flutter build web --web-renderer html       # 더 작은 크기
+# Flutter 3.7+ 버전에서는 --web-renderer 옵션이 제거되었습니다
+# 대신 자동으로 최적의 렌더러가 선택됩니다
+flutter build web --release
 
 # Tree shaking
 flutter build web --release --tree-shake-icons

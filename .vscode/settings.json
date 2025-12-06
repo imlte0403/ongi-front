@@ -1,0 +1,26 @@
+{
+  // Flutter DevTools 설정
+  "dart.flutterDevTools": "auto",
+  "dart.flutterDevToolsReuseWindows": true,
+  
+  // Flutter 관련 설정
+  "dart.enableSdkFormatter": true,
+  "dart.lineLength": 80,
+  
+  // Flutter Web 관련 설정
+  "dart.flutterWebRenderer": "auto",
+  
+  // 에디터 설정
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  
+  // 파일 제외 설정
+  "files.exclude": {
+    "**/.dart_tool": true,
+    "**/.flutter-plugins": true,
+    "**/.flutter-plugins-dependencies": true
+  }
+}
+

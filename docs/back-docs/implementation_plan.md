@@ -968,12 +968,13 @@ Flutter Web은 기본적으로 **Canvas 렌더링**을 사용하므로, 브라�
 
 #### **해결 방법**
 
-1. **HTML 렌더러 사용** (권장)
+1. **Flutter 3.7+ 버전** (자동 렌더러 선택)
    ```bash
-   # Canvas 대신 HTML 렌더러로 빌드
-   flutter build web --web-renderer html
+   # Flutter 3.7+ 버전에서는 --web-renderer 옵션이 제거됨
+   # 자동으로 최적의 렌더러가 선택됩니다
+   flutter build web --release
    ```
-   - DOM 접근이 더 자연스러움
+   - 자동으로 최적의 렌더러 선택
    - 텍스트 선택 가능
    - SEO 개선
 
@@ -989,7 +990,7 @@ Flutter Web은 기본적으로 **Canvas 렌더링**을 사용하므로, 브라�
 
 #### **온기 프로젝트 적용 방안**
 
-- ✅ **HTML 렌더러 사용**: `flutter build web --web-renderer html`
+- ✅ **기본 렌더러 사용**: `flutter build web --release` (Flutter 3.7+에서 자동 선택)
 - ✅ **카카오맵**: JavaScript Interop + HtmlElementView
 - ✅ **웹 푸시**: dart:html로 Service Worker API 접근
 - ✅ **로컬 스토리지**: `shared_preferences` (Web 지원)
