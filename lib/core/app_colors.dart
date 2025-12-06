@@ -16,8 +16,12 @@ class AppColors {
 
   // Text Colors
   static const Color textPrimary = Color(0xFF2E2E2E);
+  static const Color textSecondary = Color(0xFF616161); // gray700
   static const Color textTertiary = Color(0xFFBEBFC0);
   static const Color textDisabled = Color(0xFF929292);
+
+  // Primary Light (연한 초록)
+  static const Color primaryLight = Color(0xFFE8F7F0);
 
   // Gray Scale
   static const Color white = Color(0xFFFFFFFF);

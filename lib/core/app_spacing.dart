@@ -1,6 +1,9 @@
 /// 온기 앱의 간격 시스템
 /// 피그마 디자인 가이드를 기반으로 구성
 class AppSpacing {
+  // 최소 간격
+  static const double xxs = 2.0;
+
   // 아이콘 ↔ 텍스트
   static const double xs = 4.0;
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 import 'dart:html' as html;
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:ongi_front/core/app_theme.dart';
 import 'package:ongi_front/core/app_colors.dart';
 import 'package:ongi_front/core/app_text_styles.dart';
@@ -15,8 +16,15 @@ import 'package:ongi_front/views/pages/onboarding/club_recommendation_page.dart'
 import 'package:ongi_front/views/pages/auth/kakao_login_page.dart';
 import 'package:ongi_front/views/pages/auth/kakao_callback_page.dart';
 import 'package:ongi_front/views/pages/profile/profile_setup_page.dart';
+import 'package:ongi_front/views/pages/profile/profile_complete_page.dart';
 
-void main() {
+void main() async {
+  // Flutter 바인딩 초기화
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 한국어 로케일 데이터 초기화
+  await initializeDateFormatting('ko_KR', null);
+
   // 카카오 SDK 초기화 (웹 환경)
   final jsKey = const String.fromEnvironment(
     'KAKAO_JS_KEY',
@@ -91,6 +99,14 @@ class OngiApp extends StatelessWidget {
 
   /// 개발 모드에 따라 초기 페이지 결정
   Widget _getInitialPage() {
+    // SKIP_TO_PROFILE_COMPLETE=true: 프로필 완료 페이지로 (Sprint 5 개발용)
+    if (AppConstants.skipToProfileComplete) {
+      return const ProfileCompletePage(
+        nickname: '달려라 사자',
+        bio: '밴드 좋아하는 20대 중반 남자입니다. 주말마다 한강에서 러닝하는 것을 좋아해요.',
+        profileImageUrl: null,
+      );
+    }
     // SKIP_TO_PROFILE=true: 프로필 설정 페이지로 (개발용)
     if (AppConstants.skipToProfile) {
       return const ProfileSetupPage(

@@ -20,6 +20,10 @@ class AppConstants {
   static const bool skipToProfile =
       bool.fromEnvironment('SKIP_TO_PROFILE', defaultValue: false);
 
+  // 프로필 완료 페이지로 바로 이동: true로 설정하면 프로필 완료 페이지로 이동 (Sprint 5 개발용)
+  static const bool skipToProfileComplete =
+      bool.fromEnvironment('SKIP_TO_PROFILE_COMPLETE', defaultValue: false);
+
   // Local Storage Keys
   static const String sessionIdKey = 'guest_session_id';
   static const String accessTokenKey = 'access_token';

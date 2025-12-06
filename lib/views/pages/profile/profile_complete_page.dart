@@ -4,6 +4,7 @@ import 'package:ongi_front/core/app_spacing.dart';
 import 'package:ongi_front/core/app_text_styles.dart';
 import 'package:ongi_front/views/widgets/common/profile_avatar.dart';
 import 'package:ongi_front/views/widgets/common/bottom_button_container.dart';
+import 'package:ongi_front/views/pages/club/club_detail_page.dart';
 
 /// 프로필 완성 페이지
 /// 프로필 설정이 완료된 후 보여지는 확인 페이지
@@ -164,10 +165,11 @@ class ProfileCompletePage extends StatelessWidget {
             height: 52,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
+                Navigator.push(
                   context,
-                  '/',
-                  (route) => false,
+                  MaterialPageRoute(
+                    builder: (_) => const ClubDetailPage(clubId: 1),
+                  ),
                 );
               },
               style: ElevatedButton.styleFrom(
